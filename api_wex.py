@@ -8,6 +8,7 @@ import urllib.request, urllib.parse, urllib.error
 import json
 import hashlib
 import hmac
+import settings
 
 http_timeout = 10
 
@@ -16,7 +17,7 @@ class public_api:
     conn = http.client.HTTPSConnection('wex.nz', timeout=http_timeout)
     conn.request('GET', '/api/3/' + method)
     response = conn.getresponse().read().decode()
-    data     = json.loads(response)
+    data = json.loads(response)
     conn.close()
     return data
 
@@ -40,10 +41,10 @@ class public_api:
 
 class trade_api:
   def __init__(self):
-    self.ft = f.safe_date()
-    self.api_key    = 'WNEP2NHW-AEHRXUHU-N3WTY47B-WW3K29MD-AL1IGMYQ'
-    self.api_secret = '308a0bbbcbf7061d134c5a682a74feaef0d14b5484a25b23e0c15c5670a1ad0a'
-    self.api_nonce  = self.ft.load_nonce()
+    #self.ft = f.safe_date()
+    self.api_key    = settings.API_KEY
+    self.api_secret = settings.API_SECRET
+    #self.api_nonce  = self.ft.load_nonce()
 
   def __del__(self):
     pass
@@ -70,7 +71,7 @@ class trade_api:
     #self.non = int(self.api_nonce)
     #self.non += 1
     
-    self.ft.save_nonce(self.api_nonce)
+    #self.ft.save_nonce(self.api_nonce)
     return data
 
   def getInfo(self):
