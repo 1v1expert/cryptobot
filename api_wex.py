@@ -3,30 +3,23 @@
 ## e-mail:      sepstamp@mail.ru
 ## BTC   :      ---/
 ## donate free =)
-#import http.client
-#import urllib.request, urllib.parse, urllib.error
-import settings
 
-#http_timeout = 10
 
 import hashlib
 import hmac
-import http.client
-import json
 import urllib.parse
 import time
+import requests
 
 # Globals
 http_timeout = 10
 
 class public_api:
 	def api_call(method):
-		conn = http.client.HTTPSConnection('wex.nz', timeout=http_timeout)
-		conn.request('GET', '/api/3/' + method)
-		response = conn.getresponse().read().decode()
-		data     = json.loads(response)
+		url = 'https://wex.nz/api/3/' + method
+		conn = requests.get(url, timeout=http_timeout)
 		conn.close()
-		return data
+		return conn.json()
 
 	def info():
 		return public_api.api_call('info')
@@ -53,26 +46,20 @@ class trade_api:
 		self.api_nonce  = api_nonce
 
 	def signature(self, params):
-		sig = hmac.new(self.api_secret.encode(), params.encode(), hashlib.sha512)
-		return sig.hexdigest()
+		H = hmac.new(self.api_secret.encode(), params.encode(), digestmod=hashlib.sha512)
+		return H.hexdigest()
 
 	def api_call(self, method, params):
 		self.api_nonce = str(time.time()).split('.')[0]
-		params['method'] = method
-		params['nonce']  = str(self.api_nonce)
+		params = {"method": method, "nonce": self.api_nonce}
 		params  = urllib.parse.urlencode(params)
-		headers = {'Key':self.api_key, 'Sign':self.signature(params)}
-		conn    = http.client.HTTPSConnection('wex.nz', timeout=http_timeout)
-		conn.request('POST', '/tapi', params, headers)
-		print(conn.source_address)
-		response = conn.getresponse().read().decode()
-		print(response)
-		data = json.loads(response)
+		headers = {'Content-type':'application/x-www-form-urlencoded', 'Key':self.api_key, 'Sign':self.signature(params)}
+		conn = requests.post('https://wex.nz/tapi', data=params, verify=False, headers=headers)
 		conn.close()
-		return data
+		return conn.json()
 
 	def getInfo(self):
-		return self.api_call('/getInfo/', {})
+		return self.api_call('getInfo', {})
 
 	def Trade(self, tpair, ttype, trate, tamount):
 		params = {'pair':tpair, 'type':ttype, 'rate':trate, 'amount':tamount}
