@@ -16,14 +16,14 @@ if info['success']:
 	print('COIN   BALANCE     PRICE        VALUE')
 	for coin in funds:
 		if funds[coin] and coin not in non_coin:
-			balance = '{0:.6f}'.format(funds[coin])
+			balance = '{0:.7f}'.format(funds[coin])
 			if coin == 'usd':
 				price = '{0:.1f}'.format(1.0)
 			else:
-				price   = '{0:.3f}'.format(public_api.ticker(coin, 'usd')[f'{coin}_usd']['sell'])
-			value   = '{0:.3f}'.format(float(balance) * float(price))
+				price   = '{0:.5f}'.format(public_api.ticker(coin, 'usd')[f'{coin}_usd']['sell'])
+			value   = '{0:.5f}'.format(float(balance) * float(price))
 			total += float(value)
 			print('{0}{1}${2}${3}'.format(coin.ljust(7, ' '), balance.ljust(12, ' '), price.ljust(12, ' '), value))
-	print('Total: ${0:.2f}'.format(total))
+	print('Total: ${0:.4f}'.format(total))
 else:
 	print('[!] Error - ' + info['error'])
