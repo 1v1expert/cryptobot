@@ -1,5 +1,5 @@
-from .api_wex import public_api, trade_api
-from .settings import *
+from api_wex import public_api, trade_api
+from settings import *
 
 # API Keys
 api_key    = API_KEY

@@ -3,7 +3,7 @@
 from distutils.core import setup
 
 setup(
-    name='api_vk',
+    name='cryptobot',
     version='0.1.1',
     author='vladdos',
     author_email='1v1expert@gmail.com',
@@ -12,7 +12,7 @@ setup(
     download_url='https://github.com/1v1expert',
     license='Apache License, Version 2.0, see LICENSE file',
 
-    packages=[''],
+    packages=['api_vk', 'trade'],
     install_requires=['requests', 'enum34'],
 
     classifiers=[
