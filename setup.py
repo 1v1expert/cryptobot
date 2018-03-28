@@ -12,7 +12,7 @@ setup(
     download_url='https://github.com/1v1expert',
     license='Apache License, Version 2.0, see LICENSE file',
 
-    packages=['api_vk', 'trade'],
+    packages=['api_vk', 'trade', 'jsonfig'],
     install_requires=['requests', 'enum34'],
 
     classifiers=[
