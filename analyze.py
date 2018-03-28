@@ -1,8 +1,9 @@
-from api_wex import public_api, trade_api
-import settings
+from .api_wex import public_api, trade_api
+from .settings import *
+
 # API Keys
-api_key    = settings.API_KEY
-api_secret = settings.API_SECRET
+api_key    = API_KEY
+api_secret = API_SECRET
 nonce      = 10
 
 non_coin = ['rur', 'ethet', 'ruret']
