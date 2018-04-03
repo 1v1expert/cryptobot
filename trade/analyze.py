@@ -26,11 +26,11 @@ def get_info_coins():
 				if coin == 'usd':
 					price = '{0:.1f}'.format(1.0)
 				else:
-					price   = '{0:.5f}'.format(public_api.ticker(coin, 'usd')[f'{coin}_usd']['sell'])
-				value   = '{0:.5f}'.format(float(balance) * float(price))
+					price   = '{0:.6f}'.format(public_api.ticker(coin, 'usd')[f'{coin}_usd']['sell'])
+				value   = '{0:.6f}'.format(float(balance) * float(price))
 				total += float(value)
-				msg += '{0}{1}${2}${3}\n'.format(coin.ljust(7, ' '), balance.ljust(12, ' '), price.ljust(12, ' '), value)
-		msg += 'Total: ${0:.4f}'.format(total)
+				msg += '{0}{1}${2}${3}\n'.format(coin.ljust(7, ' '), str(round(float(balance), 4)).ljust(12, ' '), str(round(float(price), 2)).ljust(12, ' '), round(float(value), 2))
+		msg += 'Total: ${0:.5f}'.format(total)
 	else:
 		msg += '[!] Error - ' + info['error']
 	return msg
