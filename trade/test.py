@@ -93,7 +93,7 @@ def initialization():
             writer = csv.writer(file, delimiter=';')
             writer.writerow(data_info)
             
-    data_tranzaction = ['num', 'coin', 'price', 'balance']
+    data_tranzaction = ['num', 'coin', 'price', 'count']
     # отдельные файлы транзакций на покупку и продажу
     with open('tranzactions_sell.csv', 'a+') as tr_file:
         writer = csv.writer(tr_file, delimiter=';')
@@ -128,11 +128,21 @@ def check_orders():
         
 def check_tranzact(num, coin, price):
     # проверяем не исполнился ли наш ордер
-    if public_api.ticker(coin, 'usd')[f'{coin}_usd']['sell'] >= (float(price)*KOEF):
-        put_tranzact(False, num, )
+    current_price = public_api.ticker(coin, 'usd')[f'{coin}_usd']['sell']
+    if current_price >= (float(price)*KOEF):
+        put_tranzact(False, num, coin, current_price)
         
-def put_tranzact(type, num, ):
-    pass
+def put_tranzact(type, num, coin, price):
+    if not type:
+        with open('tranzactions_sell.csv', 'a+') as file:
+            data = [num, coin, price]
+            writer = csv.writer(file, delimiter=';')
+            writer.writerow(data)
+    else:
+        with open('tranzactions_sell.csv', 'a+') as file:
+            data = [num, coin, price]
+            writer = csv.writer(file, delimiter=';')
+            writer.writerow(data)
 
 def buy_coins():
     pass
