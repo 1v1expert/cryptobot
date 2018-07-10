@@ -1,5 +1,3 @@
-settings.py
-__pycache__
-vk_config.v2.json
-build
-*.csv
+*.sqlite3
+*.json
+venv/
